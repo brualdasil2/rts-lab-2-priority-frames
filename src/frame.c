@@ -14,5 +14,5 @@ void print_frame(frame f) {
             type_char = 'B';
             break;
     }
-    printf("%c (%d)\n", type_char, f.size);
+    printf("%c (%d) - %d\n", type_char, f.size, f.priority);
 }
