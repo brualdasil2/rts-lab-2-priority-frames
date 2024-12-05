@@ -13,6 +13,7 @@ SRC := main.c
 SRC += frame.c
 SRC += frame_vector.c
 SRC += vector.c
+SRC += priority.c
 
 # Or like this to get all .c files from src dir
 #SRC := $(shell find src -name *.c)
@@ -32,3 +33,6 @@ $(OBJ): %.o: %.c
 
 $(BUILD_DIR):
 	mkdir $(BUILD_DIR)
+
+clean:
+	rm -rf $(BUILD_DIR)

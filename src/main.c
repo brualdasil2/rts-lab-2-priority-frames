@@ -4,6 +4,7 @@
 #include "vector.h"
 #include "frame.h"
 #include "frame_vector.h"
+#include "priority.h"
 
 #define FRAME_VEC_SIZE 20
 #define MAX_FRAME_SIZE 1000
@@ -53,6 +54,8 @@ int main() {
         return 0;
     }
     
+    assign_priorities(&frame_vec);
+
     for (int i = 0; i < frame_vec.size; i++) {
         f = get_frame_from_index(&frame_vec, i);
         print_frame(f);
