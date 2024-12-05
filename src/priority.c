@@ -136,10 +136,24 @@ void assign_priorities(vector* frame_vec) {
         }
         // we have a b index, lets assign a priority to it and block around the radius
         f = get_frame_from_index(frame_vec, biggest_b_index);
-        f.priority = curr_priority;
-        curr_priority++;
+        f.priority = curr_priority++;
         add_frame_to_vector(frame_vec, biggest_b_index, f);
         block_around_index(&blocked_vec, biggest_b_index, block_radius);
     }
 
+    // Priority for P frames
+    for (int i = frame_vec->size-1; i >= 0; i--) {
+        f = get_frame_from_index(frame_vec, i);
+        if (f.type != TYPE_P) {
+            continue;
+        }
+        // is a P frame
+        f.priority = curr_priority++;
+        add_frame_to_vector(frame_vec, i, f);
+    }
+
+    // Priority for I frame
+    f = get_frame_from_index(frame_vec, 0);
+    f.priority = curr_priority;
+    add_frame_to_vector(frame_vec, 0, f);
 }
