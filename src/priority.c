@@ -61,36 +61,36 @@ void unblock_if_not_source(vector* blocked_vec, int index) {
     write_vector(blocked_vec, index, (char*) &b, sizeof(blocked_status));
 }
 
-
-// Returns new block radius
-int reduce_block_radius(vector* blocked_vec, int block_radius) {
-    blocked_status b;
-    int block_decrement = BLOCK_RADIUS_DECREMENT > block_radius ? block_radius : BLOCK_RADIUS_DECREMENT;
-    for (int i = 0; i < blocked_vec->size; i++) {
-        b = get_blocked_from_index(blocked_vec, i);
-        if (!b.is_source) {
-            continue;
-        }
-        // b is a block source
-        // would break if decrement > radius
-        // unblock not sources on low edge of radius
-        for (int j = i-block_radius; j < i-block_radius+block_decrement; j++) {
-            unblock_if_not_source(blocked_vec, j);
-        }
-        // unblock not sources on high edge of radius
-        for (int j = i+block_radius; j > i+block_radius-block_decrement; j--) {
-            unblock_if_not_source(blocked_vec, j);
-        }
-    }
-    return block_radius - block_decrement;
-}
-
 void block_b(vector* blocked_vec, int index) {
     blocked_status b;
     b = get_blocked_from_index(blocked_vec, index);
     b.is_blocked = 1;
     write_vector(blocked_vec, index, (char*) &b, sizeof(blocked_status));
 }
+
+// Returns new block radius
+int reduce_block_radius(vector* blocked_vec, int block_radius) {
+    blocked_status b;
+    int block_decrement = BLOCK_RADIUS_DECREMENT > block_radius ? block_radius : BLOCK_RADIUS_DECREMENT;
+    block_radius -= block_decrement;
+    // unblock everything
+    for (int i = 0; i < blocked_vec->size; i++) {
+        unblock_if_not_source(blocked_vec, i);
+    }
+    // block around sources
+    for (int i = 0; i < blocked_vec->size; i++) {
+        b = get_blocked_from_index(blocked_vec, i);
+        if (!b.is_source) {
+            continue;
+        }
+        // b is source, block around it
+        for (int j = i-block_radius; j <= i+block_radius; j++) {
+            block_b(blocked_vec, j);
+        }
+    }
+    return block_radius;
+}
+
 
 void block_around_index(vector* blocked_vec, int index, int block_radius) {
     blocked_status b;
