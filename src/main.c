@@ -6,7 +6,7 @@
 #include "frame_vector.h"
 #include "priority.h"
 
-#define FRAME_VEC_SIZE 20
+#define FRAME_VEC_SIZE 100
 #define MAX_FRAME_SIZE 1000
 #define B_TO_P_PROPORTION 5
 

@@ -17,4 +17,5 @@ vec_status create_vector(vector* vec_ptr, int initial_size, size_t data_size);
 
 vec_status write_vector(vector* vec_ptr, int index, char* data, size_t data_size);
 
+
 #endif // VECTOR_H
